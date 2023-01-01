@@ -6,7 +6,7 @@ from units.board import Board
 
 class Console(Engine):
     def draw(self, board: Board) -> None:
-        output = ' ' + ' '.join([str(x) for x in range(board.get_size())]) + '\n'
+        output = '  ' + ' '.join([str(x) for x in range(board.get_size())]) + '\n'
 
         for i, row in enumerate(board.get_board()):
             output += f'{i} '
