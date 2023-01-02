@@ -27,5 +27,3 @@ while True:
         exit(0)
 
     second_player = not second_player
-
-
