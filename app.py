@@ -1,4 +1,4 @@
-from games.checkers import Checkers
+from games.wrong_checkers import Checkers
 from graphics_engines.console_engine import Console
 
 game = Checkers()
