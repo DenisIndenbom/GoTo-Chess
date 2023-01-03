@@ -1,5 +1,5 @@
 from units.game import Game
-from units.board import Board
+from boards.chess_board import ChessBoard
 from pieces.checker import Checker
 
 __all__ = ['Checkers']
@@ -7,9 +7,9 @@ __all__ = ['Checkers']
 
 class Checkers(Game):
     def __init__(self):
-        self.__board = Board(8)
+        self.__board = ChessBoard(8)
 
-    def init_board(self) -> None:
+    def init(self) -> None:
         for i in range(8):
             self.__board.set_piece((i, 0), Checker('b'))
             self.__board.set_piece((i, 1), Checker('b'))
@@ -18,7 +18,9 @@ class Checkers(Game):
             self.__board.set_piece((i, 7), Checker('w'))
             self.__board.set_piece((i, 6), Checker('w'))
 
-    def step(self, piece_pos, target_pos, second_player) -> bool:
+    def step(self, action: dict, second_player: bool) -> bool:
+        piece_pos = action['piece_pos']
+        target_pos = action['target_pos']
         x, y = piece_pos
         t_x, t_y = target_pos
 
@@ -53,5 +55,5 @@ class Checkers(Game):
 
         return count == 0
 
-    def get_board(self) -> Board:
+    def get_board(self) -> ChessBoard:
         return self.__board

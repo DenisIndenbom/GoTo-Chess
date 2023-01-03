@@ -1,29 +1,33 @@
-from games.wrong_checkers import Checkers
-from graphics_engines.console_engine import Console
+from units.game import Game
+from units.engine import Engine
 
-game = Checkers()
-game.init_board()
-engine = Console()
+__all__ = ['App']
 
-second_player = False
 
-engine.draw(game.get_board())
+class App:
+    def __init__(self, game: Game, engine: Engine):
+        self.game = game
+        self.engine = engine
+        self.input = input
 
-while True:
-    piece_pos = engine.input_pos(text='Введите координаты шашки (x, y): ')
-    target_pos = engine.input_pos(text='Введите координаты клетки (x, y): ')
+        self.game.init()
+        self.engine.draw(game.get_board())
 
-    result = game.step(piece_pos, target_pos, second_player)
+        self.second_player = False
 
-    if not result:
-        engine.log(text='Такой ход невозможен!')
-        continue
+    def run(self):
+        while True:
+            action = self.engine.input()
+            result = self.game.step(action, self.second_player)
 
-    engine.draw(game.get_board())
+            if not result:
+                self.engine.log(text='Такой ход невозможен!')
+                continue
 
-    if game.check_win(second_player):
-        engine.log(text=('Белый выиграл!' if not second_player else 'Чёрный выиграл!'))
-        input('Enter any key... ')
-        exit(0)
+            self.engine.draw(self.game.get_board())
 
-    second_player = not second_player
+            if self.game.check_win(self.second_player):
+                self.engine.log(text=('Белый выиграл!' if not self.second_player else 'Чёрный выиграл!'))
+                return
+
+            self.second_player = not self.second_player

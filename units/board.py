@@ -1,42 +1,28 @@
+from abc import ABC, abstractmethod
 from units.piece import Piece
 
 __all__ = ['Board']
 
 
-class Board:
-    def __init__(self, size) -> None:
-        self.__board: list = [[None for _ in range(size)] for _ in range(size)]
-        self.__size: int = size
+class Board(ABC):
+    def __init__(self, board, size: int) -> None:
+        self._board = board
+        self._size: int = size
 
     def get_board(self) -> list:
-        return self.__board
+        return self._board
 
     def get_size(self) -> int:
-        return self.__size
+        return self._size
 
+    @abstractmethod
     def set_piece(self, pos: tuple, piece: Piece) -> None:
-        x, y = pos
+        pass
 
-        self.__board[y][x] = piece
-
+    @abstractmethod
     def get_piece(self, pos: tuple) -> Piece:
-        return self.__board[pos[1]][pos[0]]
+        pass
 
+    @abstractmethod
     def move(self, pos: tuple, target: tuple) -> bool:
-        x, y = pos
-        t_x, t_y = target
-
-        if not ((0 <= x < self.__size) and (0 <= y < self.__size)) \
-                or not ((0 <= t_x < self.__size) and (0 <= t_y < self.__size)) \
-                or self.__board[y][x] is None:
-            return False
-
-        result = self.__board[y][x].validate_step(pos, target)
-
-        if not result:
-            return False
-
-        self.__board[t_y][t_x] = self.__board[y][x]
-        self.__board[y][x] = None
-
-        return True
+        pass

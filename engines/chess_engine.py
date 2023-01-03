@@ -1,11 +1,13 @@
 from os import system
 
 from units.engine import Engine
-from units.board import Board
+from boards.chess_board import ChessBoard
+
+__all__ = ['ChessEngine']
 
 
-class Console(Engine):
-    def draw(self, board: Board) -> None:
+class ChessEngine(Engine):
+    def draw(self, board: ChessBoard) -> None:
         output = '  ' + ' '.join([str(x) for x in range(board.get_size())]) + '\n'
 
         for i, row in enumerate(board.get_board()):
@@ -19,10 +21,12 @@ class Console(Engine):
 
         print(output)
 
-    def input_pos(self, **kwargs):
-        piece_pos = tuple(map(int, input(kwargs['text']).split()))
-
-        return piece_pos
+    def input(self) -> dict:
+        action = dict()
+        return action
 
     def log(self, **kwargs):
-        print(kwargs['text'])
+        if kwargs.get('end') is None:
+            kwargs['end'] = '\n'
+
+        print(kwargs['text'], end=kwargs['end'])
